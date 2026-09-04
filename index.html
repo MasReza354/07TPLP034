@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Statistik Sentimen Masyarakat</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="min-h-screen bg-slate-50 text-slate-900 font-sans p-4 md:p-8">
+
+    <div class="max-w-7xl mx-auto">
+        <!-- Header -->
+        <header class="mb-8 flex flex-col md:flex-row justify-between items-start md:items-center bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+            <div>
+                <h1 class="text-2xl md:text-3xl font-bold flex items-center gap-3 text-slate-800">
+                    <i data-lucide="activity" class="w-8 h-8 text-blue-600"></i>
+                    Statistik Sentimen Masyarakat
+                </h1>
+                <p class="text-slate-500 mt-2">Analisis otomatis sentimen dari data Apify (NLP Sederhana)</p>
+            </div>
+            <div class="mt-4 md:mt-0 flex gap-3">
+                <button id="btnSettings" class="flex items-center gap-2 px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg transition-colors font-medium">
+                    <i data-lucide="settings" class="w-4 h-4"></i>
+                    Konfigurasi API
+                </button>
+                <button id="btnReload" class="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors font-medium">
+                    <i data-lucide="refresh-cw" id="reloadIcon" class="w-4 h-4"></i>
+                    <span id="reloadText">Muat Ulang</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Settings Panel -->
+        <div id="settingsPanel" class="hidden mb-8 bg-white p-6 rounded-2xl shadow-sm border border-slate-100 transition-all duration-300">
+            <h3 class="font-semibold text-lg mb-4">Pengaturan Sumber Data Apify</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-slate-600 mb-1">API Token</label>
+                    <input type="text" id="apiToken" value="apify_api_2LHxWWFcv7FheyRwC2gxeemaWoYVkk4qmUGt" class="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-600 mb-1">Apify ID (Dataset / Actor / Task)</label>
+                    <input type="text" id="actorId" value="d5Y1ot6aPxhGYztSv" class="w-full p-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                </div>
+            </div>
+            <p class="text-xs text-slate-500 mt-3">* Sistem akan memindai secara otomatis apakah ID ini adalah Dataset, Actor, atau Task.</p>
+        </div>
+
+        <!-- Error Alert -->
+        <div id="errorAlert" class="hidden mb-8 bg-orange-50 border border-orange-200 text-orange-800 p-4 rounded-xl flex items-start gap-3">
+            <i data-lucide="alert-circle" class="w-5 h-5 mt-0.5 shrink-0"></i>
+            <div>
+                <h4 class="font-semibold">Perhatian</h4>
+                <p class="text-sm" id="errorMessage"></p>
+            </div>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex items-center justify-between">
+                <div>
+                    <p class="text-slate-500 text-sm font-medium">Total Data</p>
+                    <h3 class="text-3xl font-bold text-slate-800 mt-1" id="statTotal">0</h3>
+                </div>
+                <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center">
+                    <i data-lucide="database" class="w-6 h-6"></i>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex items-center justify-between">
+                <div>
+                    <p class="text-slate-500 text-sm font-medium">Positif</p>
+                    <h3 class="text-3xl font-bold text-emerald-600 mt-1" id="statPos">0</h3>
+                </div>
+                <div class="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-full flex items-center justify-center">
+                    <i data-lucide="smile" class="w-6 h-6"></i>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex items-center justify-between">
+                <div>
+                    <p class="text-slate-500 text-sm font-medium">Netral</p>
+                    <h3 class="text-3xl font-bold text-slate-600 mt-1" id="statNeu">0</h3>
+                </div>
+                <div class="w-12 h-12 bg-slate-100 text-slate-500 rounded-full flex items-center justify-center">
+                    <i data-lucide="meh" class="w-6 h-6"></i>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex items-center justify-between">
+                <div>
+                    <p class="text-slate-500 text-sm font-medium">Negatif</p>
+                    <h3 class="text-3xl font-bold text-red-600 mt-1" id="statNeg">0</h3>
+                </div>
+                <div class="w-12 h-12 bg-red-50 text-red-600 rounded-full flex items-center justify-center">
+                    <i data-lucide="frown" class="w-6 h-6"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Section -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+                <h3 class="font-semibold text-lg text-slate-800 mb-6">Distribusi Sentimen</h3>
+                <div class="relative h-72 w-full flex justify-center">
+                    <canvas id="pieChart"></canvas>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+                <h3 class="font-semibold text-lg text-slate-800 mb-6">Perbandingan Kuantitas</h3>
+                <div class="relative h-72 w-full flex justify-center">
+                    <canvas id="barChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Data Table -->
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+            <div class="p-6 border-b border-slate-100 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <h3 class="font-semibold text-lg text-slate-800">Detail Opini/Komentar</h3>
+                
+                <div class="relative w-full sm:w-64">
+                    <i data-lucide="search" class="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400"></i>
+                    <input type="text" id="searchInput" placeholder="Cari teks..." class="w-full pl-9 pr-4 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                </div>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-sm">
+                    <thead class="bg-slate-50 text-slate-600 font-medium border-b border-slate-200">
+                        <tr>
+                            <th class="px-6 py-4">Teks/Komentar</th>
+                            <th class="px-6 py-4 w-40">Sentimen</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody" class="divide-y divide-slate-100">
+                        <!-- Data will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Inisialisasi ikon Lucide
+        lucide.createIcons();
+
+        // Variabel global untuk menyimpan data
+        let currentData = [];
+        let pieChartInstance = null;
+        let barChartInstance = null;
+
+        // Data Simulasi (Mock Data)
+        const MOCK_DATA = [
+            { id: '1', text: 'Kinerja pemerintah tahun ini sangat bagus dan mantap, ekonomi mulai pulih.', createdAt: '2023-10-01' },
+            { id: '2', text: 'Harga sembako makin mahal, parah banget rakyat makin susah.', createdAt: '2023-10-02' },
+            { id: '3', text: 'Infrastruktur di desa saya sudah mulai diperbaiki, terima kasih.', createdAt: '2023-10-02' },
+            { id: '4', text: 'Saya kecewa dengan pelayanan publik hari ini, sangat lambat dan buruk.', createdAt: '2023-10-03' },
+            { id: '5', text: 'Semoga kebijakan baru ini bisa memberikan dampak positif.', createdAt: '2023-10-04' },
+            { id: '6', text: 'Biasa saja sih, tidak ada perubahan yang signifikan dari sebelumnya.', createdAt: '2023-10-04' },
+            { id: '7', text: 'Sangat setuju dengan aturan baru, keren abis!', createdAt: '2023-10-05' },
+            { id: '8', text: 'Banyak jalan rusak dibiarkan, pemerintah gagal mengurus ini.', createdAt: '2023-10-06' },
+            { id: '9', text: 'Menunggu hasil keputusan rapat paripurna besok.', createdAt: '2023-10-07' },
+            { id: '10', text: 'Pelayanan kesehatan makin baik, mantap!', createdAt: '2023-10-07' },
+        ];
+
+        const POSITIVE_WORDS = ['bagus', 'keren', 'mantap', 'baik', 'suka', 'dukung', 'positif', 'hebat', 'setuju', 'aman', 'terima kasih', 'maju'];
+        const NEGATIVE_WORDS = ['jelek', 'buruk', 'benci', 'marah', 'kecewa', 'tolak', 'negatif', 'parah', 'gagal', 'hancur', 'mahal', 'lambat', 'susah', 'rusak'];
+
+        const COLORS = {
+            Positive: '#10b981', // Emerald 500
+            Neutral: '#94a3b8',  // Slate 400
+            Negative: '#ef4444'  // Red 500
+        };
+
+        // Logika Analisis Sentimen Sederhana
+        function analyzeSentiment(text) {
+            if (!text) return 'Neutral';
+            const lowerText = text.toLowerCase();
+            let score = 0;
+            
+            POSITIVE_WORDS.forEach(word => { if (lowerText.includes(word)) score++; });
+            NEGATIVE_WORDS.forEach(word => { if (lowerText.includes(word)) score--; });
+            
+            if (score > 0) return 'Positive';
+            if (score < 0) return 'Negative';
+            return 'Neutral';
+        }
+
+        // Elemen DOM
+        const btnReload = document.getElementById('btnReload');
+        const reloadIcon = document.getElementById('reloadIcon');
+        const reloadText = document.getElementById('reloadText');
+        const btnSettings = document.getElementById('btnSettings');
+        const settingsPanel = document.getElementById('settingsPanel');
+        const errorAlert = document.getElementById('errorAlert');
+        const errorMessage = document.getElementById('errorMessage');
+        const searchInput = document.getElementById('searchInput');
+
+        // Toggle Panel Pengaturan
+        btnSettings.addEventListener('click', () => {
+            settingsPanel.classList.toggle('hidden');
+        });
+
+        // Event listener pencarian
+        searchInput.addEventListener('input', (e) => {
+            renderTable(currentData, e.target.value);
+        });
+
+        // Event listener muat ulang
+        btnReload.addEventListener('click', fetchData);
+
+        // Fungsi Utama untuk mengambil data
+        async function fetchData() {
+            const apiToken = document.getElementById('apiToken').value;
+            const actorId = document.getElementById('actorId').value;
+            
+            // Set status loading
+            setLoading(true);
+            errorAlert.classList.add('hidden');
+            
+            let rawData = null;
+
+            try {
+                const urlsToTry = [
+                    `https://api.apify.com/v2/datasets/${actorId}/items?token=${apiToken}`,
+                    `https://api.apify.com/v2/acts/${actorId}/runs/last/dataset/items?token=${apiToken}`,
+                    `https://api.apify.com/v2/actor-tasks/${actorId}/runs/last/dataset/items?token=${apiToken}`
+                ];
+
+                for (const url of urlsToTry) {
+                    try {
+                        const response = await fetch(url);
+                        if (response.ok) {
+                            const data = await response.json();
+                            if (data && data.length > 0) {
+                                rawData = data;
+                                break;
+                            }
+                        }
+                    } catch (err) {
+                        // Lanjut ke URL berikutnya
+                    }
+                }
+
+                if (!rawData) {
+                    throw new Error('Gagal menemukan data. Pastikan API Token dan ID valid, serta Dataset tidak kosong.');
+                }
+
+                // Proses data asli
+                currentData = rawData.map((item, index) => {
+                    const textContent = item.text || item.full_text || item.title || item.content || item.tweet || JSON.stringify(item);
+                    return {
+                        id: item.id || index.toString(),
+                        text: textContent,
+                        createdAt: item.createdAt || item.created_at || new Date().toISOString(),
+                        sentiment: analyzeSentiment(textContent)
+                    };
+                });
+
+            } catch (err) {
+                console.warn("API Error, menggunakan data simulasi:", err.message);
+                errorMessage.textContent = "Gagal terhubung ke API Apify atau data kosong. Menggunakan data simulasi.";
+                errorAlert.classList.remove('hidden');
+                
+                // Gunakan data simulasi jika gagal
+                currentData = MOCK_DATA.map(item => ({
+                    ...item,
+                    sentiment: analyzeSentiment(item.text)
+                }));
+            } finally {
+                setLoading(false);
+                updateUI();
+            }
+        }
+
+        function setLoading(isLoading) {
+            btnReload.disabled = isLoading;
+            if (isLoading) {
+                reloadIcon.classList.add('animate-spin');
+                reloadText.textContent = 'Memuat...';
+                btnReload.classList.add('opacity-70');
+            } else {
+                reloadIcon.classList.remove('animate-spin');
+                reloadText.textContent = 'Muat Ulang';
+                btnReload.classList.remove('opacity-70');
+            }
+        }
+
+        function updateUI() {
+            // Hitung statistik
+            const total = currentData.length;
+            const positive = currentData.filter(d => d.sentiment === 'Positive').length;
+            const neutral = currentData.filter(d => d.sentiment === 'Neutral').length;
+            const negative = currentData.filter(d => d.sentiment === 'Negative').length;
+
+            // Perbarui kartu angka
+            document.getElementById('statTotal').textContent = total;
+            document.getElementById('statPos').textContent = positive;
+            document.getElementById('statNeu').textContent = neutral;
+            document.getElementById('statNeg').textContent = negative;
+
+            const chartData = {
+                labels: ['Positive', 'Neutral', 'Negative'],
+                values: [positive, neutral, negative],
+                colors: [COLORS.Positive, COLORS.Neutral, COLORS.Negative]
+            };
+
+            renderCharts(chartData);
+            renderTable(currentData, searchInput.value);
+        }
+
+        function renderCharts(data) {
+            // Hapus instance grafik lama jika ada
+            if (pieChartInstance) pieChartInstance.destroy();
+            if (barChartInstance) barChartInstance.destroy();
+
+            // Konfigurasi Pie Chart
+            const pieCtx = document.getElementById('pieChart').getContext('2d');
+            pieChartInstance = new Chart(pieCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: data.labels,
+                    datasets: [{
+                        data: data.values,
+                        backgroundColor: data.colors,
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '70%',
+                    plugins: {
+                        legend: { position: 'bottom' }
+                    }
+                }
+            });
+
+            // Konfigurasi Bar Chart
+            const barCtx = document.getElementById('barChart').getContext('2d');
+            barChartInstance = new Chart(barCtx, {
+                type: 'bar',
+                data: {
+                    labels: data.labels,
+                    datasets: [{
+                        label: 'Jumlah',
+                        data: data.values,
+                        backgroundColor: data.colors,
+                        borderRadius: 6,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: { beginAtZero: true, grid: { borderDash: [3, 3] }, border: { display: false } },
+                        x: { grid: { display: false }, border: { display: false } }
+                    }
+                }
+            });
+        }
+
+        function renderTable(data, searchTerm = '') {
+            const tbody = document.getElementById('tableBody');
+            tbody.innerHTML = '';
+
+            const filteredData = data.filter(item => 
+                item.text.toLowerCase().includes(searchTerm.toLowerCase())
+            );
+
+            if (filteredData.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="2" class="px-6 py-12 text-center text-slate-500">
+                            Tidak ada data yang cocok dengan pencarian.
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            filteredData.forEach(item => {
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-slate-50 transition-colors';
+                
+                let badgeClass = '';
+                let iconName = '';
+
+                if (item.sentiment === 'Positive') {
+                    badgeClass = 'bg-emerald-50 text-emerald-700 border-emerald-200';
+                    iconName = 'smile';
+                } else if (item.sentiment === 'Negative') {
+                    badgeClass = 'bg-red-50 text-red-700 border-red-200';
+                    iconName = 'frown';
+                } else {
+                    badgeClass = 'bg-slate-100 text-slate-700 border-slate-200';
+                    iconName = 'meh';
+                }
+
+                tr.innerHTML = `
+                    <td class="px-6 py-4 text-slate-700">${item.text}</td>
+                    <td class="px-6 py-4">
+                        <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border ${badgeClass}">
+                            <i data-lucide="${iconName}" class="w-3 h-3 mr-1"></i>
+                            ${item.sentiment}
+                        </span>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            // Re-inisialisasi ikon untuk baris baru
+            lucide.createIcons();
+        }
+
+        // Jalankan fetch saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', fetchData);
+    </script>
+</body>
+</html>
