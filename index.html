@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
   <title>Dashboard Sentimen Sensus Ekonomi Tangerang Selatan</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,42 +13,51 @@
       font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       background-color: #f8fafc;
       color: #0f172a;
+      -webkit-tap-highlight-color: transparent;
     }
-    /* Custom scrollbar clean enterprise */
-    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    /* Scrollbar minimalis modern enterprise */
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
     ::-webkit-scrollbar-track { background: #f1f5f9; }
     ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
     ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+    /* Mencegah overflow horizontal pada layar sempit */
+    html, body {
+      max-width: 100%;
+      overflow-x: hidden;
+    }
   </style>
 </head>
 <body class="min-h-screen bg-slate-50 flex flex-col antialiased">
 
+  <!-- Header Aplikasi: Menggunakan layout adaptif fluida agar judul dan tombol tidak bertubrukan -->
   <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-[0_1px_3px_rgba(0,0,0,0.04)]">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex items-center justify-between h-16">
+    <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between min-h-[58px] sm:h-16 py-2 sm:py-0 gap-2">
         
-        <!-- Identitas Resmi & Judul -->
-        <div class="flex items-center space-x-3.5">
-          <div class="w-10 h-10 rounded-xl bg-slate-900 flex items-center justify-center text-white shadow-sm ring-1 ring-slate-900/10">
-            <svg class="w-5 h-5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <!-- Identitas Resmi: Teks menyesuaikan kerapatan layar HP -->
+        <div class="flex items-center space-x-2.5 sm:space-x-3.5 min-w-0 flex-1">
+          <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-slate-900 flex-shrink-0 flex items-center justify-center text-white shadow-sm ring-1 ring-slate-900/10">
+            <svg class="w-4 h-4 sm:w-5 sm:h-5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
             </svg>
           </div>
-          <div>
-            <div class="flex items-center space-x-2">
-              <span class="text-sm font-bold text-slate-900 tracking-tight">SENSUS EKONOMI 2026</span>
-              <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold bg-indigo-50 text-indigo-700 border border-indigo-200/70">
-                KOTA TANGERANG SELATAN
+          <div class="min-w-0 flex-1">
+            <div class="flex items-center flex-wrap gap-1 sm:gap-1.5">
+              <span class="text-xs sm:text-sm font-extrabold text-slate-900 tracking-tight leading-tight whitespace-nowrap">SENSUS EKONOMI 2026</span>
+              <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[9px] sm:text-[10px] font-bold bg-indigo-50 text-indigo-700 border border-indigo-200/80 whitespace-nowrap">
+                <span class="sm:hidden">TANGSEL</span>
+                <span class="hidden sm:inline">KOTA TANGERANG SELATAN</span>
               </span>
             </div>
-            <p class="text-xs text-slate-500 font-medium">Sistem Pemantauan dan Analisis Sentimen Pelaku Usaha</p>
+            <p class="text-[10px] sm:text-xs text-slate-500 font-medium truncate">Sistem Analisis Sentimen Pelaku Usaha</p>
           </div>
         </div>
 
         <!-- Tombol Aksi Header -->
-        <div class="flex items-center space-x-2 sm:space-x-3">
-          <!-- Status Konektivitas Engine -->
-          <div class="hidden md:flex items-center space-x-2 px-3 py-1.5 rounded-lg bg-emerald-50 border border-emerald-200/80 text-emerald-700 text-xs font-semibold">
+        <div class="flex items-center space-x-1.5 sm:space-x-2.5 flex-shrink-0">
+          <!-- Status Konektivitas Engine (Desktop) -->
+          <div class="hidden lg:flex items-center space-x-2 px-3 py-1.5 rounded-lg bg-emerald-50 border border-emerald-200/80 text-emerald-700 text-xs font-semibold">
             <span class="relative flex h-2 w-2">
               <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
               <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
@@ -56,11 +65,11 @@
             <span id="labelConnectionStatus">Pipeline Data Aktif</span>
           </div>
 
-          <!-- Tombol Pengaturan Pipeline (Discreet) -->
+          <!-- Tombol Pengaturan Pipeline (Read-Only) -->
           <button
             id="btnToggleSettings"
-            title="Lihat Status Engine Data"
-            class="p-2 text-slate-500 hover:text-slate-800 bg-white hover:bg-slate-100 border border-slate-200 rounded-lg transition-colors focus:outline-none"
+            title="Lihat Konfigurasi Engine"
+            class="p-2 text-slate-600 hover:text-slate-900 bg-white hover:bg-slate-100 border border-slate-200 rounded-lg transition-colors focus:outline-none"
           >
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
@@ -71,23 +80,23 @@
           <!-- Ekspor CSV/Laporan -->
           <button
             id="btnExportData"
-            class="hidden sm:inline-flex items-center space-x-1.5 px-3.5 py-1.5 text-xs font-semibold text-slate-700 bg-white hover:bg-slate-50 border border-slate-200 rounded-lg shadow-sm transition-colors"
+            class="hidden sm:inline-flex items-center space-x-1.5 px-3 py-2 text-xs font-semibold text-slate-700 bg-white hover:bg-slate-50 border border-slate-200 rounded-lg shadow-2xs transition-colors"
           >
             <svg class="w-3.5 h-3.5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
             </svg>
-            <span>Ekspor Data</span>
+            <span>Ekspor</span>
           </button>
 
           <!-- Sinkronisasi Data Real-Time -->
           <button
             id="btnFetchData"
-            class="inline-flex items-center space-x-2 px-4 py-2 rounded-lg bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold transition shadow-sm"
+            class="inline-flex items-center space-x-1.5 px-3 py-2 sm:px-3.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold transition shadow-sm"
           >
-            <svg id="iconRefresh" class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg id="iconRefresh" class="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
             </svg>
-            <span id="labelFetch">Sinkronisasi Data</span>
+            <span id="labelFetch">Sinkronisasi</span>
           </button>
         </div>
 
@@ -95,45 +104,45 @@
     </div>
   </header>
 
-  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-7 space-y-6 flex-1 w-full">
+  <main class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-7 space-y-4 sm:space-y-6 flex-1 w-full">
 
     <!-- Toast / Pesan Status Interaktif -->
-    <div id="notificationBox" class="hidden rounded-xl p-4 text-xs font-medium border flex items-center justify-between shadow-sm transition-all duration-300">
-      <div class="flex items-center space-x-3">
-        <div id="notificationIconBadge" class="p-1.5 rounded-lg bg-white/70">
-          <svg id="notificationIcon" class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"></svg>
+    <div id="notificationBox" class="hidden rounded-xl p-3 sm:p-4 text-xs font-medium border flex items-center justify-between shadow-2xs transition-all duration-300">
+      <div class="flex items-center space-x-2.5 sm:space-x-3">
+        <div id="notificationIconBadge" class="p-1.5 rounded-lg bg-white/80 flex-shrink-0">
+          <svg id="notificationIcon" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"></svg>
         </div>
-        <div>
+        <div class="min-w-0 flex-1">
           <p id="notificationTitle" class="font-bold text-slate-900 leading-tight">Pemberitahuan Sistem</p>
-          <p id="notificationText" class="text-slate-600 mt-0.5 leading-snug"></p>
+          <p id="notificationText" class="text-slate-600 mt-0.5 leading-snug break-words"></p>
         </div>
       </div>
-      <button id="btnCloseNotification" class="text-slate-400 hover:text-slate-700 p-1.5 rounded-lg">
+      <button id="btnCloseNotification" class="text-slate-400 hover:text-slate-700 p-1 rounded-lg flex-shrink-0 ml-2">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
         </svg>
       </button>
     </div>
 
-    <!-- Panel Pengaturan Engine Data (Read-Only untuk Deployment) -->
-    <section id="settingsPanel" class="hidden bg-white border border-slate-200 rounded-xl p-6 shadow-sm space-y-5">
-      <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+    <!-- Panel Pengaturan Engine Data (Read-Only) -->
+    <section id="settingsPanel" class="hidden bg-white border border-slate-200 rounded-xl p-4 sm:p-6 shadow-2xs space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
         <div>
-          <h2 class="text-sm font-bold text-slate-900">Konfigurasi Engine Analitik Data</h2>
-          <p class="text-xs text-slate-500">Pengaturan akses aman ke alur data API sensus ekonomi.</p>
+          <h2 class="text-xs sm:text-sm font-bold text-slate-900">Konfigurasi Engine Analitik Data</h2>
+          <p class="text-[11px] sm:text-xs text-slate-500">Parameter integrasi API terhubung langsung ke alur komputasi.</p>
         </div>
-        <span class="text-xs font-semibold px-2.5 py-1 bg-slate-100 text-slate-700 rounded-md border border-slate-200 flex items-center space-x-1.5">
+        <span class="text-[11px] sm:text-xs font-semibold px-2 sm:px-2.5 py-1 bg-slate-100 text-slate-700 rounded-md border border-slate-200 flex items-center space-x-1.5 flex-shrink-0">
           <svg class="w-3.5 h-3.5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
           </svg>
-          <span>Status: Terintegrasi</span>
+          <span>Terkoneksi</span>
         </span>
       </div>
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         <!-- Input Token (Read-Only) -->
         <div>
-          <label class="block text-xs font-semibold text-slate-700 mb-1 flex items-center justify-between">
+          <label class="block text-[11px] sm:text-xs font-semibold text-slate-700 mb-1 flex items-center justify-between">
             <span>API Token Autentikasi</span>
             <span class="text-[10px] text-slate-400 font-medium">Terkunci</span>
           </label>
@@ -153,7 +162,7 @@
 
         <!-- Input User ID (Read-Only) -->
         <div>
-          <label class="block text-xs font-semibold text-slate-700 mb-1 flex items-center justify-between">
+          <label class="block text-[11px] sm:text-xs font-semibold text-slate-700 mb-1 flex items-center justify-between">
             <span>User Identifier</span>
             <span class="text-[10px] text-slate-400 font-medium">Terkunci</span>
           </label>
@@ -178,15 +187,15 @@
         </div>
 
         <div>
-          <label class="block text-xs font-semibold text-slate-700 mb-1">Status Saluran Pengambilan</label>
+          <label class="block text-[11px] sm:text-xs font-semibold text-slate-700 mb-1">Status Saluran Pengambilan</label>
           <div class="flex items-center space-x-2 text-xs text-slate-600 bg-slate-50 px-3 py-2 rounded-lg border border-slate-200">
-            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-            <span class="font-medium">2 Saluran Sinkron Otomatis</span>
+            <span class="w-2 h-2 rounded-full bg-emerald-500 flex-shrink-0"></span>
+            <span class="font-medium truncate">Sinkronisasi Otomatis Aktif</span>
           </div>
         </div>
 
         <div>
-          <label class="block text-xs font-semibold text-slate-700 mb-1">Uji Koneksi</label>
+          <label class="block text-[11px] sm:text-xs font-semibold text-slate-700 mb-1">Uji Koneksi</label>
           <button
             id="btnRunTest"
             class="w-full text-xs font-semibold py-2 px-3 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-lg border border-slate-300/80 transition-colors"
@@ -197,79 +206,85 @@
       </div>
     </section>
 
-    <!-- Kartu Metrik Eksekutif -->
-    <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    <!-- Kartu Metrik: Menggunakan grid-cols-2 di layar HP agar kompak dan rapi di atas lipatan layar -->
+    <section class="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4">
       
       <!-- Total Aspirasi Responden -->
-      <div class="bg-white rounded-xl border border-slate-200/90 p-5 shadow-[0_1px_3px_rgba(0,0,0,0.03)] hover:border-slate-300 transition">
+      <div class="bg-white rounded-xl border border-slate-200/90 p-3.5 sm:p-5 shadow-[0_1px_3px_rgba(0,0,0,0.03)] hover:border-slate-300 transition flex flex-col justify-between">
         <div class="flex items-center justify-between">
-          <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Total Responden</span>
-          <div class="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center text-slate-700">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <span class="text-[10px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider truncate">Responden</span>
+          <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-slate-100 flex items-center justify-center text-slate-700 flex-shrink-0">
+            <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
             </svg>
           </div>
         </div>
-        <div class="mt-3">
-          <div id="metricTotal" class="text-3xl font-extrabold text-slate-900 tracking-tight">0</div>
-          <div class="flex items-center space-x-1.5 text-xs text-slate-500 font-medium mt-1">
-            <svg class="w-3.5 h-3.5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="mt-2 sm:mt-3">
+          <div id="metricTotal" class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight leading-none">0</div>
+          <div class="flex items-center space-x-1 text-[10px] sm:text-xs text-slate-500 font-medium mt-1.5 truncate">
+            <svg class="w-3 h-3 text-indigo-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
-            <span>Seluruh Wilayah Tangsel</span>
+            <span class="truncate">Wilayah Tangsel</span>
           </div>
         </div>
       </div>
 
       <!-- Sentimen Positif -->
-      <div class="bg-white rounded-xl border border-slate-200/90 p-5 shadow-[0_1px_3px_rgba(0,0,0,0.03)] hover:border-slate-300 transition">
+      <div class="bg-white rounded-xl border border-slate-200/90 p-3.5 sm:p-5 shadow-[0_1px_3px_rgba(0,0,0,0.03)] hover:border-slate-300 transition flex flex-col justify-between">
         <div class="flex items-center justify-between">
-          <span class="text-xs font-semibold text-emerald-700 uppercase tracking-wider">Sentimen Positif</span>
-          <div class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center border border-emerald-200/60">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <span class="text-[10px] sm:text-xs font-bold text-emerald-700 uppercase tracking-wider truncate">Positif</span>
+          <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center border border-emerald-200/60 flex-shrink-0">
+            <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H4a2 2 0 01-2-2v-6a2 2 0 012-2h3" />
             </svg>
           </div>
         </div>
-        <div class="mt-3">
-          <div id="metricPositif" class="text-3xl font-extrabold text-emerald-600 tracking-tight">0</div>
-          <div class="w-full bg-slate-100 h-2 rounded-full mt-2.5 overflow-hidden">
+        <div class="mt-2 sm:mt-3">
+          <div id="metricPositif" class="text-xl sm:text-3xl font-extrabold text-emerald-600 tracking-tight leading-none flex items-baseline space-x-1">
+            <span>0</span>
+          </div>
+          <div class="w-full bg-slate-100 h-1.5 sm:h-2 rounded-full mt-2 overflow-hidden">
             <div id="barPositif" class="bg-emerald-500 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
           </div>
         </div>
       </div>
 
       <!-- Sentimen Netral -->
-      <div class="bg-white rounded-xl border border-slate-200/90 p-5 shadow-[0_1px_3px_rgba(0,0,0,0.03)] hover:border-slate-300 transition">
+      <div class="bg-white rounded-xl border border-slate-200/90 p-3.5 sm:p-5 shadow-[0_1px_3px_rgba(0,0,0,0.03)] hover:border-slate-300 transition flex flex-col justify-between">
         <div class="flex items-center justify-between">
-          <span class="text-xs font-semibold text-amber-700 uppercase tracking-wider">Sentimen Netral</span>
-          <div class="w-8 h-8 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center border border-amber-200/60">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <span class="text-[10px] sm:text-xs font-bold text-amber-700 uppercase tracking-wider truncate">Netral</span>
+          <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center border border-amber-200/60 flex-shrink-0">
+            <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h8m-4-8a8 8 0 100 16 8 8 0 000-16z" />
             </svg>
           </div>
         </div>
-        <div class="mt-3">
-          <div id="metricNetral" class="text-3xl font-extrabold text-amber-600 tracking-tight">0</div>
-          <div class="w-full bg-slate-100 h-2 rounded-full mt-2.5 overflow-hidden">
+        <div class="mt-2 sm:mt-3">
+          <div id="metricNetral" class="text-xl sm:text-3xl font-extrabold text-amber-600 tracking-tight leading-none flex items-baseline space-x-1">
+            <span>0</span>
+          </div>
+          <div class="w-full bg-slate-100 h-1.5 sm:h-2 rounded-full mt-2 overflow-hidden">
             <div id="barNetral" class="bg-amber-500 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
           </div>
         </div>
       </div>
 
       <!-- Sentimen Kritis / Negatif -->
-      <div class="bg-white rounded-xl border border-slate-200/90 p-5 shadow-[0_1px_3px_rgba(0,0,0,0.03)] hover:border-slate-300 transition">
+      <div class="bg-white rounded-xl border border-slate-200/90 p-3.5 sm:p-5 shadow-[0_1px_3px_rgba(0,0,0,0.03)] hover:border-slate-300 transition flex flex-col justify-between">
         <div class="flex items-center justify-between">
-          <span class="text-xs font-semibold text-rose-700 uppercase tracking-wider">Sentimen Negatif</span>
-          <div class="w-8 h-8 rounded-lg bg-rose-50 text-rose-600 flex items-center justify-center border border-rose-200/60">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <span class="text-[10px] sm:text-xs font-bold text-rose-700 uppercase tracking-wider truncate">Negatif</span>
+          <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-rose-50 text-rose-600 flex items-center justify-center border border-rose-200/60 flex-shrink-0">
+            <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14H5.236a2 2 0 01-1.789-2.894l3.5-7A2 2 0 018.736 3h4.018c.163 0 .326.02.485.06L17 4m-7 10v5a2 2 0 002 2h.095c.5 0 .905-.405.905-.905 0-.714.211-1.412.608-2.006L17 13V4m-7 10h2m5-10h3a2 2 0 012 2v6a2 2 0 01-2 2h-3" />
             </svg>
           </div>
         </div>
-        <div class="mt-3">
-          <div id="metricNegatif" class="text-3xl font-extrabold text-rose-600 tracking-tight">0</div>
-          <div class="w-full bg-slate-100 h-2 rounded-full mt-2.5 overflow-hidden">
+        <div class="mt-2 sm:mt-3">
+          <div id="metricNegatif" class="text-xl sm:text-3xl font-extrabold text-rose-600 tracking-tight leading-none flex items-baseline space-x-1">
+            <span>0</span>
+          </div>
+          <div class="w-full bg-slate-100 h-1.5 sm:h-2 rounded-full mt-2 overflow-hidden">
             <div id="barNegatif" class="bg-rose-500 h-full rounded-full transition-all duration-500" style="width: 0%"></div>
           </div>
         </div>
@@ -278,16 +293,17 @@
     </section>
 
     <!-- Dua Kolom Analisis: Persebaran Wilayah & Isu Strategis -->
-    <section class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <section class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
       
-      <!-- Kolom Kiri: Persebaran Kecamatan (7 Kecamatan Tangsel) -->
-      <div class="lg:col-span-2 bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 border-b border-slate-100">
+      <!-- Kolom Kiri: Persebaran Kecamatan (Dengan layout anti-tumpang tindih di layar HP) -->
+      <div class="lg:col-span-2 bg-white rounded-xl border border-slate-200 p-4 sm:p-6 shadow-2xs">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3.5 border-b border-slate-100">
           <div>
-            <h3 class="text-sm font-bold text-slate-900 tracking-tight">Persebaran Respon Wilayah</h3>
-            <p class="text-xs text-slate-500">Tingkat respons dan indeks sentimen di 7 kecamatan Kota Tangerang Selatan</p>
+            <h3 class="text-xs sm:text-sm font-bold text-slate-900 tracking-tight">Persebaran Respon Wilayah</h3>
+            <p class="text-[11px] sm:text-xs text-slate-500">Tingkat respons dan indeks sentimen di 7 kecamatan Tangsel</p>
           </div>
-          <div class="flex items-center space-x-3 text-[11px] font-semibold">
+          <!-- Indikator Legenda -->
+          <div class="flex items-center space-x-3 text-[10px] sm:text-[11px] font-semibold pt-1 sm:pt-0">
             <span class="flex items-center space-x-1 text-emerald-700">
               <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
               <span>Positif</span>
@@ -303,80 +319,80 @@
           </div>
         </div>
 
-        <!-- Daftar Baris Kecamatan -->
-        <div id="listKecamatan" class="mt-4 space-y-3.5">
+        <!-- Daftar Baris Kecamatan: Di-render via JS dengan proteksi anti-tubrukan -->
+        <div id="listKecamatan" class="mt-3.5 space-y-2.5 sm:space-y-3">
           <!-- Rendered by JS -->
         </div>
       </div>
 
-      <!-- Kolom Kanan: Isu Strategis & Rekomendasi Mitigasi -->
-      <div class="bg-white rounded-xl border border-slate-200 p-6 shadow-sm space-y-4 flex flex-col justify-between">
+      <!-- Kolom Kanan: Isu Strategis & Rekomendasi Lapangan -->
+      <div class="bg-white rounded-xl border border-slate-200 p-4 sm:p-6 shadow-2xs space-y-4 flex flex-col justify-between">
         <div>
           <div class="pb-3 border-b border-slate-100">
-            <h3 class="text-sm font-bold text-slate-900 tracking-tight">Fokus Isu Lapangan</h3>
-            <p class="text-xs text-slate-500">Pola percakapan utama pelaku usaha</p>
+            <h3 class="text-xs sm:text-sm font-bold text-slate-900 tracking-tight">Fokus Isu Lapangan</h3>
+            <p class="text-[11px] sm:text-xs text-slate-500">Pola percakapan utama pelaku usaha</p>
           </div>
 
-          <div class="space-y-3 mt-4 text-xs">
+          <div class="space-y-2.5 sm:space-y-3 mt-3.5 text-xs">
             <!-- Isu 1 -->
-            <div class="p-3.5 rounded-lg border border-slate-200/90 bg-slate-50/70 hover:bg-slate-50 transition">
-              <div class="flex items-center justify-between font-bold text-slate-900 mb-1.5">
-                <span class="flex items-center space-x-1.5">
-                  <svg class="w-3.5 h-3.5 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="p-3 sm:p-3.5 rounded-lg border border-slate-200/90 bg-slate-50/70 hover:bg-slate-50 transition">
+              <div class="flex items-center justify-between font-bold text-slate-900 mb-1.5 gap-1">
+                <span class="flex items-center space-x-1.5 truncate">
+                  <svg class="w-3.5 h-3.5 text-rose-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                   </svg>
-                  <span>Kerahasiaan Data Usaha</span>
+                  <span class="truncate">Kerahasiaan Data Usaha</span>
                 </span>
-                <span class="text-[10px] uppercase font-bold px-2 py-0.5 rounded bg-rose-100 text-rose-800">
+                <span class="text-[9px] uppercase font-bold px-1.5 py-0.5 rounded bg-rose-100 text-rose-800 flex-shrink-0">
                   Urgensi Tinggi
                 </span>
               </div>
-              <p class="text-slate-600 leading-relaxed">
-                Pelaku UMKM di Ciputat dan Pamulang memerlukan sosialisasi jaminan tertulis bahwa data omzet tidak diteruskan ke penetapan pajak baru.
+              <p class="text-slate-600 leading-relaxed text-[11px] sm:text-xs">
+                Pelaku UMKM di Ciputat dan Pamulang memerlukan kepastian tertulis bahwa data omzet tidak diteruskan untuk penarikan retribusi baru.
               </p>
             </div>
 
             <!-- Isu 2 -->
-            <div class="p-3.5 rounded-lg border border-slate-200/90 bg-slate-50/70 hover:bg-slate-50 transition">
-              <div class="flex items-center justify-between font-bold text-slate-900 mb-1.5">
-                <span class="flex items-center space-x-1.5">
-                  <svg class="w-3.5 h-3.5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="p-3 sm:p-3.5 rounded-lg border border-slate-200/90 bg-slate-50/70 hover:bg-slate-50 transition">
+              <div class="flex items-center justify-between font-bold text-slate-900 mb-1.5 gap-1">
+                <span class="flex items-center space-x-1.5 truncate">
+                  <svg class="w-3.5 h-3.5 text-amber-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2" />
                   </svg>
-                  <span>Verifikasi Petugas Sensus</span>
+                  <span class="truncate">Verifikasi Petugas Sensus</span>
                 </span>
-                <span class="text-[10px] uppercase font-bold px-2 py-0.5 rounded bg-amber-100 text-amber-800">
+                <span class="text-[9px] uppercase font-bold px-1.5 py-0.5 rounded bg-amber-100 text-amber-800 flex-shrink-0">
                   Perhatian
                 </span>
               </div>
-              <p class="text-slate-600 leading-relaxed">
+              <p class="text-slate-600 leading-relaxed text-[11px] sm:text-xs">
                 Permintaan penggunaan tanda pengenal resmi ber-QR Code untuk mencegah potensi penipuan di komplek perumahan & pertokoan.
               </p>
             </div>
 
             <!-- Isu 3 -->
-            <div class="p-3.5 rounded-lg border border-slate-200/90 bg-slate-50/70 hover:bg-slate-50 transition">
-              <div class="flex items-center justify-between font-bold text-slate-900 mb-1.5">
-                <span class="flex items-center space-x-1.5">
-                  <svg class="w-3.5 h-3.5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="p-3 sm:p-3.5 rounded-lg border border-slate-200/90 bg-slate-50/70 hover:bg-slate-50 transition">
+              <div class="flex items-center justify-between font-bold text-slate-900 mb-1.5 gap-1">
+                <span class="flex items-center space-x-1.5 truncate">
+                  <svg class="w-3.5 h-3.5 text-emerald-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
                   </svg>
-                  <span>Bantuan & Pelatihan Usaha</span>
+                  <span class="truncate">Bantuan & Pelatihan UMKM</span>
                 </span>
-                <span class="text-[10px] uppercase font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800">
-                  Dukungan Kuat
+                <span class="text-[9px] uppercase font-bold px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-800 flex-shrink-0">
+                  Dukungan
                 </span>
               </div>
-              <p class="text-slate-600 leading-relaxed">
-                Pelaku sektor kuliner dan kriya di Serpong mengapresiasi sensus sebagai jalan percepatan akses legalitas usaha dan permodalan.
+              <p class="text-slate-600 leading-relaxed text-[11px] sm:text-xs">
+                Pelaku sektor kuliner dan kriya di Serpong mengapresiasi sensus sebagai jalan percepatan akses legalitas usaha dan modal binaan.
               </p>
             </div>
           </div>
         </div>
 
         <!-- Rekomendasi Kebijakan Singkat -->
-        <div class="mt-4 pt-3 border-t border-slate-100 text-xs flex items-center justify-between text-slate-500 font-medium">
-          <span>Tingkat Kesiapan Lapangan:</span>
+        <div class="mt-3 pt-3 border-t border-slate-100 text-[11px] sm:text-xs flex items-center justify-between text-slate-500 font-medium">
+          <span>Kesiapan Lapangan:</span>
           <span class="font-bold text-slate-800 bg-slate-100 px-2 py-0.5 rounded">Optimal (87%)</span>
         </div>
       </div>
@@ -384,32 +400,35 @@
     </section>
 
     <!-- Tabulasi & Detail Aspirasi Masyarakat -->
-    <section class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+    <section class="bg-white rounded-xl border border-slate-200 shadow-2xs overflow-hidden">
       
-      <!-- Bar Alat Filter & Pencarian -->
-      <div class="p-4 sm:p-5 border-b border-slate-200 bg-slate-50/50 flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <!-- Bar Alat Filter & Pencarian: Menggunakan tata letak grid responsif yang teratur di smartphone -->
+      <div class="p-3.5 sm:p-5 border-b border-slate-200 bg-slate-50/50 flex flex-col gap-3">
         
-        <div class="flex flex-wrap items-center gap-2.5">
-          <!-- Kotak Pencarian -->
-          <div class="relative w-full sm:w-64">
+        <!-- Baris Input Pencarian -->
+        <div class="w-full">
+          <div class="relative w-full">
             <svg class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
             <input
               id="searchFilter"
               type="text"
-              placeholder="Cari kata kunci, topik, penutur..."
-              class="w-full text-xs pl-9 pr-3 py-2 bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-slate-900 transition"
+              placeholder="Cari kata kunci, topik, penutur, tagar..."
+              class="w-full text-xs pl-9 pr-3 py-2 bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-slate-900 transition shadow-2xs"
             />
           </div>
+        </div>
 
-          <!-- Filter Kecamatan -->
-          <div class="w-full sm:w-auto">
+        <!-- Baris Filter Dropdown Responsif -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 w-full">
+          <!-- Filter Kecamatan (Memenuhi 2 kolom di HP) -->
+          <div class="col-span-2 sm:col-span-1">
             <select
               id="selectKecamatanFilter"
-              class="w-full text-xs px-3 py-2 bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900 font-medium text-slate-700"
+              class="w-full text-xs px-2.5 py-2 bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900 font-medium text-slate-700 shadow-2xs"
             >
-              <option value="Semua Wilayah">Semua Kecamatan (Tangsel)</option>
+              <option value="Semua Wilayah">Semua Kecamatan (7 Wilayah)</option>
               <option value="Ciputat">Ciputat</option>
               <option value="Ciputat Timur">Ciputat Timur</option>
               <option value="Pamulang">Pamulang</option>
@@ -421,10 +440,10 @@
           </div>
 
           <!-- Filter Sentimen -->
-          <div class="w-full sm:w-auto">
+          <div>
             <select
               id="selectSentimenFilter"
-              class="w-full text-xs px-3 py-2 bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900 font-medium text-slate-700"
+              class="w-full text-xs px-2.5 py-2 bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900 font-medium text-slate-700 shadow-2xs"
             >
               <option value="Semua">Semua Sentimen</option>
               <option value="Positif">Positif</option>
@@ -434,71 +453,79 @@
           </div>
 
           <!-- Pengurutan Skor/Waktu -->
-          <div class="w-full sm:w-auto">
+          <div>
             <select
               id="selectSortOrder"
-              class="w-full text-xs px-3 py-2 bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900 font-medium text-slate-700"
+              class="w-full text-xs px-2.5 py-2 bg-white border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900 font-medium text-slate-700 shadow-2xs"
             >
               <option value="newest">Terbaru</option>
-              <option value="highest">Skor Positif Tertinggi</option>
-              <option value="lowest">Skor Paling Kritis</option>
+              <option value="highest">Positif Teratas</option>
+              <option value="lowest">Paling Kritis</option>
             </select>
           </div>
         </div>
 
         <!-- Indikator Jumlah Data Terfilter -->
-        <div class="text-xs font-medium text-slate-500 flex items-center space-x-1.5 self-end md:self-center">
-          <span>Menampilkan</span>
-          <span id="countFiltered" class="font-bold text-slate-900 px-1.5 py-0.5 bg-slate-200 rounded">0</span>
-          <span>dari</span>
-          <span id="countTotal" class="font-bold text-slate-900">0</span>
-          <span>entri terverifikasi</span>
+        <div class="text-[11px] sm:text-xs font-medium text-slate-500 flex items-center justify-between pt-1">
+          <div class="flex items-center space-x-1">
+            <span>Menampilkan</span>
+            <span id="countFiltered" class="font-bold text-slate-900 px-1.5 py-0.5 bg-slate-200 rounded">0</span>
+            <span>dari</span>
+            <span id="countTotal" class="font-bold text-slate-900">0</span>
+            <span>aspirasi</span>
+          </div>
+          <button
+            id="btnMobileExport"
+            class="sm:hidden text-indigo-600 font-semibold hover:underline flex items-center space-x-1"
+          >
+            <span>Unduh CSV</span>
+          </button>
         </div>
       </div>
 
-      <!-- Feed / List Aspirasi -->
+      <!-- Feed / List Aspirasi: Di-render via JS -->
       <div id="feedList" class="divide-y divide-slate-100">
         <!-- Rendered by JS -->
       </div>
     </section>
 
     <!-- Modal Verifikasi & Inspeksi Sumber Data Resmi -->
-    <div id="modalSourceDetail" class="hidden fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-[2px] flex items-center justify-center p-4">
-      <div class="bg-white rounded-2xl border border-slate-200 shadow-xl max-w-lg w-full overflow-hidden transition-all transform">
+    <div id="modalSourceDetail" class="hidden fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-[2px] flex items-center justify-center p-3 sm:p-4">
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-xl max-w-lg w-full max-h-[90vh] flex flex-col overflow-hidden transition-all">
         
         <!-- Header Modal -->
-        <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/70">
-          <div class="flex items-center space-x-2.5">
-            <div class="w-8 h-8 rounded-lg bg-indigo-50 border border-indigo-200/70 flex items-center justify-center text-indigo-700">
+        <div class="px-4 sm:px-6 py-3.5 border-b border-slate-100 flex items-center justify-between bg-slate-50/70 flex-shrink-0">
+          <div class="flex items-center space-x-2.5 min-w-0">
+            <div class="w-8 h-8 rounded-lg bg-indigo-50 border border-indigo-200/70 flex items-center justify-center text-indigo-700 flex-shrink-0">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
               </svg>
             </div>
-            <div>
-              <h3 class="text-sm font-bold text-slate-900">Verifikasi Rujukan Sumber Data</h3>
-              <p class="text-[11px] text-slate-500">Validasi autentisitas aspirasi dari platform publik</p>
+            <div class="min-w-0">
+              <h3 class="text-xs sm:text-sm font-bold text-slate-900 truncate">Verifikasi Sumber Data</h3>
+              <p class="text-[10px] sm:text-[11px] text-slate-500 truncate">Validasi rujukan data platform publik</p>
             </div>
           </div>
-          <button id="btnCloseModal" class="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors">
+          <button id="btnCloseModal" class="p-1 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors flex-shrink-0">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
         </div>
 
-        <!-- Isi Konten Modal -->
-        <div class="p-6 space-y-4 text-xs">
+        <!-- Isi Konten Modal (Dapat di-scroll jika layar pendek) -->
+        <div class="p-4 sm:p-6 space-y-3.5 text-xs overflow-y-auto flex-1">
           
           <!-- Metadata Kanal & Penutur -->
-          <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200/80 space-y-2">
-            <div class="flex items-center justify-between">
-              <span id="modalAuthor" class="font-bold text-slate-900 text-sm"></span>
-              <span id="modalSentimentBadge" class="px-2.5 py-0.5 rounded text-[10px] font-semibold border"></span>
+          <div class="p-3 sm:p-3.5 rounded-xl bg-slate-50 border border-slate-200/80 space-y-1.5">
+            <div class="flex items-center justify-between gap-2">
+              <span id="modalAuthor" class="font-bold text-slate-900 text-xs sm:text-sm truncate"></span>
+              <span id="modalSentimentBadge" class="px-2 py-0.5 rounded text-[10px] font-semibold border flex-shrink-0"></span>
             </div>
-            <div class="flex flex-wrap items-center gap-2 text-slate-500 text-[11px]">
+            <div class="flex flex-wrap items-center gap-1.5 text-slate-500 text-[10px] sm:text-[11px]">
               <span id="modalHandle" class="font-mono text-slate-600"></span>
               <span>•</span>
-              <span id="modalChannel" class="font-medium text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded border border-indigo-100"></span>
+              <span id="modalChannel" class="font-medium text-indigo-700 bg-indigo-50 px-1.5 py-0.2 rounded border border-indigo-100"></span>
               <span>•</span>
               <span id="modalKecamatan" class="font-medium text-slate-700"></span>
             </div>
@@ -506,33 +533,33 @@
 
           <!-- Cuplikan Teks Asli -->
           <div>
-            <label class="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1.5">Teks Aspirasi Terverifikasi</label>
-            <div class="p-3.5 rounded-xl bg-slate-50/70 border border-slate-200 text-slate-800 leading-relaxed text-xs italic" id="modalText"></div>
+            <label class="block text-[10px] sm:text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1">Kutipan Aspirasi Terverifikasi</label>
+            <div class="p-3 sm:p-3.5 rounded-xl bg-slate-50/70 border border-slate-200 text-slate-800 leading-relaxed text-xs italic" id="modalText"></div>
           </div>
 
           <!-- Tagar / Isu Terdata -->
-          <div class="flex flex-wrap items-center justify-between gap-2 pt-1 text-[11px] text-slate-500">
+          <div class="flex flex-wrap items-center justify-between gap-2 pt-0.5 text-[11px] text-slate-500">
             <div>
-              <span>Topik Fokus: </span>
+              <span>Topik: </span>
               <strong id="modalTopic" class="text-slate-800 font-semibold"></strong>
             </div>
-            <div id="modalHashtags" class="flex flex-wrap items-center gap-1.5"></div>
+            <div id="modalHashtags" class="flex flex-wrap items-center gap-1"></div>
           </div>
 
           <!-- Kotak Tautan URL Lengkap -->
           <div>
-            <label class="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1.5">Tautan Rujukan Sumber Asli</label>
-            <div class="flex items-center space-x-2">
+            <label class="block text-[10px] sm:text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1">Tautan Rujukan Sumber Asli</label>
+            <div class="flex items-center space-x-1.5">
               <input
                 id="inputModalUrl"
                 type="text"
                 readonly
-                class="flex-1 text-xs px-3 py-2 bg-slate-100 border border-slate-200 rounded-lg text-slate-600 font-mono select-all focus:outline-none"
+                class="flex-1 text-xs px-2.5 py-2 bg-slate-100 border border-slate-200 rounded-lg text-slate-600 font-mono select-all focus:outline-none min-w-0"
               />
               <button
                 id="btnCopyModalUrl"
                 type="button"
-                class="px-3 py-2 text-xs font-semibold bg-slate-900 hover:bg-slate-800 text-white rounded-lg transition-colors flex items-center space-x-1.5 flex-shrink-0"
+                class="px-3 py-2 text-xs font-semibold bg-slate-900 hover:bg-slate-800 text-white rounded-lg transition-colors flex items-center space-x-1 flex-shrink-0"
               >
                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
@@ -540,31 +567,26 @@
                 <span>Salin</span>
               </button>
             </div>
-            <p class="text-[10px] text-slate-400 mt-1.5 flex items-center space-x-1">
-              <svg class="w-3 h-3 text-slate-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              <span>Platform YouTube melindungi penayangan di dalam frame peramban; gunakan tombol di bawah untuk membukanya secara aman di jendela baru.</span>
-            </p>
+            <p class="text-[10px] text-slate-400 mt-1">Platform video melindungi penayangan di dalam frame; buka di jendela baru atau salin URL.</p>
           </div>
 
         </div>
 
         <!-- Tombol Aksi Modal -->
-        <div class="px-6 py-3.5 border-t border-slate-100 bg-slate-50/50 flex items-center justify-end space-x-2.5">
+        <div class="px-4 sm:px-6 py-3 border-t border-slate-100 bg-slate-50/50 flex items-center justify-end space-x-2 flex-shrink-0">
           <button
             id="btnCloseModalBottom"
             type="button"
-            class="px-4 py-2 text-xs font-semibold text-slate-700 bg-white hover:bg-slate-100 border border-slate-200 rounded-lg transition-colors"
+            class="px-3.5 py-1.5 text-xs font-semibold text-slate-700 bg-white hover:bg-slate-100 border border-slate-200 rounded-lg transition-colors"
           >
             Tutup
           </button>
           <button
             id="btnOpenExternalModal"
             type="button"
-            class="px-4 py-2 text-xs font-semibold text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg transition-colors flex items-center space-x-1.5 shadow-sm"
+            class="px-3.5 py-1.5 text-xs font-semibold text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg transition-colors flex items-center space-x-1.5 shadow-2xs"
           >
-            <span>Buka di Tab Baru</span>
+            <span>Buka Tab Baru</span>
             <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
             </svg>
@@ -577,22 +599,22 @@
   </main>
 
   <!-- Footer Resmi -->
-  <footer class="bg-white border-t border-slate-200 py-6 text-xs text-slate-500 mt-10">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3">
+  <footer class="bg-white border-t border-slate-200 py-4 sm:py-6 text-xs text-slate-500 mt-6 sm:mt-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-2.5 text-center sm:text-left">
       <div class="flex items-center space-x-2">
-        <div class="w-2 h-2 rounded-full bg-indigo-600"></div>
-        <p class="font-medium text-slate-700">Pusat Data dan Informasi Sensus Ekonomi Kota Tangerang Selatan</p>
+        <div class="w-2 h-2 rounded-full bg-indigo-600 flex-shrink-0"></div>
+        <p class="font-medium text-slate-700 text-[11px] sm:text-xs">Pusat Data dan Informasi Sensus Ekonomi Kota Tangerang Selatan</p>
       </div>
-      <div class="flex items-center space-x-4 text-slate-400">
+      <div class="flex items-center space-x-3 text-slate-400 text-[10px] sm:text-[11px]">
         <span>Engine Analisis Sentimen Terpadu</span>
         <span>•</span>
-        <span>BPS & Diskominfo Tangsel</span>
+        <span>BPS & Diskominfo</span>
       </div>
     </div>
   </footer>
 
   <script>
-    // Konstanta 7 Kecamatan di Kota Tangerang Selatan
+    // Daftar 7 Kecamatan di Kota Tangerang Selatan
     const KECAMATAN_LIST = [
       "Ciputat",
       "Ciputat Timur",
@@ -603,7 +625,7 @@
       "Setu"
     ];
 
-    // Data dasar terverifikasi
+    // Data dasar terverifikasi sebagai cadangan operasional
     let feedData = [
       {
         id: "rec-101",
@@ -719,7 +741,6 @@
       }
     ];
 
-    // Selektor Elemen DOM
     const btnToggleSettings = document.getElementById("btnToggleSettings");
     const settingsPanel = document.getElementById("settingsPanel");
     const btnFetchData = document.getElementById("btnFetchData");
@@ -727,6 +748,7 @@
     const iconRefresh = document.getElementById("iconRefresh");
     const labelFetch = document.getElementById("labelFetch");
     const btnExportData = document.getElementById("btnExportData");
+    const btnMobileExport = document.getElementById("btnMobileExport");
 
     const inputApifyToken = document.getElementById("inputApifyToken");
     const inputDataset1 = document.getElementById("inputDataset1");
@@ -768,15 +790,15 @@
 
       if (type === "success") {
         notificationBox.classList.add("bg-emerald-50", "text-emerald-950", "border-emerald-200/90");
-        notificationIconBadge.className = "p-1.5 rounded-lg bg-emerald-100 text-emerald-700";
+        notificationIconBadge.className = "p-1.5 rounded-lg bg-emerald-100 text-emerald-700 flex-shrink-0";
         notificationIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />';
       } else if (type === "error") {
         notificationBox.classList.add("bg-rose-50", "text-rose-950", "border-rose-200/90");
-        notificationIconBadge.className = "p-1.5 rounded-lg bg-rose-100 text-rose-700";
+        notificationIconBadge.className = "p-1.5 rounded-lg bg-rose-100 text-rose-700 flex-shrink-0";
         notificationIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />';
       } else {
         notificationBox.classList.add("bg-sky-50", "text-sky-950", "border-sky-200/90");
-        notificationIconBadge.className = "p-1.5 rounded-lg bg-sky-100 text-sky-700";
+        notificationIconBadge.className = "p-1.5 rounded-lg bg-sky-100 text-sky-700 flex-shrink-0";
         notificationIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />';
       }
 
@@ -843,7 +865,7 @@
       return { label: "Netral", score: 0.08 };
     }
 
-    // Sinkronisasi data melalui API
+    // Sinkronisasi data melalui API Apify
     async function fetchDataApify() {
       const token = inputApifyToken.value.trim();
       const ds1 = inputDataset1.value.trim();
@@ -854,7 +876,7 @@
         return;
       }
 
-      labelFetch.textContent = "Menyinkronkan...";
+      labelFetch.textContent = "Proses...";
       iconRefresh.classList.add("animate-spin");
       btnFetchData.disabled = true;
 
@@ -862,7 +884,7 @@
         const fetchItems = async (datasetId) => {
           if (!datasetId) return [];
           const res = await fetch(`https://api.apify.com/v2/datasets/${datasetId}/items?token=${token}&limit=60`);
-          if (!res.ok) throw new Error(`Aliran ${datasetId} merespon kode ${res.status}`);
+          if (!res.ok) throw new Error(`Saluran ${datasetId} merespon status ${res.status}`);
           const data = await res.json();
           return Array.isArray(data) ? data : [];
         };
@@ -923,7 +945,7 @@
       } catch (err) {
         showNotification("error", "Kendala Aliran Data", `${err.message}. Data cadangan tetap aktif untuk operasional.`);
       } finally {
-        labelFetch.textContent = "Sinkronisasi Data";
+        labelFetch.textContent = "Sinkronisasi";
         iconRefresh.classList.remove("animate-spin");
         btnFetchData.disabled = false;
       }
@@ -932,7 +954,7 @@
     btnFetchData.addEventListener("click", fetchDataApify);
     btnRunTest.addEventListener("click", fetchDataApify);
 
-    // Render Metrik
+    // Render Metrik Eksekutif
     function renderMetrik() {
       const total = feedData.length;
       const pos = feedData.filter(d => d.sentiment === "Positif").length;
@@ -944,16 +966,16 @@
       const persenNeg = total ? Math.round((neg / total) * 100) : 0;
 
       metricTotal.textContent = total.toLocaleString("id-ID");
-      metricPositif.innerHTML = `${pos} <span class="text-xs text-slate-500 font-semibold">(${persenPos}%)</span>`;
-      metricNetral.innerHTML = `${net} <span class="text-xs text-slate-500 font-semibold">(${persenNet}%)</span>`;
-      metricNegatif.innerHTML = `${neg} <span class="text-xs text-slate-500 font-semibold">(${persenNeg}%)</span>`;
+      metricPositif.innerHTML = `<span>${pos}</span> <span class="text-[11px] sm:text-xs text-slate-500 font-semibold">(${persenPos}%)</span>`;
+      metricNetral.innerHTML = `<span>${net}</span> <span class="text-[11px] sm:text-xs text-slate-500 font-semibold">(${persenNet}%)</span>`;
+      metricNegatif.innerHTML = `<span>${neg}</span> <span class="text-[11px] sm:text-xs text-slate-500 font-semibold">(${persenNeg}%)</span>`;
 
       barPositif.style.width = `${persenPos}%`;
       barNetral.style.width = `${persenNet}%`;
       barNegatif.style.width = `${persenNeg}%`;
     }
 
-    // Render Persebaran Sentimen per Kecamatan
+    // Render Persebaran Sentimen per Kecamatan (Anti-Tubrukan di Mobile)
     function renderKecamatan() {
       listKecamatan.innerHTML = "";
 
@@ -969,26 +991,44 @@
         const persenNeg = total ? Math.round((neg / total) * 100) : 0;
 
         const row = document.createElement("div");
-        row.className = "p-3 rounded-xl bg-slate-50 hover:bg-slate-100/80 border border-slate-200/80 transition flex flex-col justify-between space-y-2";
+        row.className = "p-3 sm:p-3.5 rounded-xl bg-slate-50/90 hover:bg-slate-100/90 border border-slate-200/80 transition flex flex-col space-y-2";
+        
+        // Desain bertingkat terstruktur: Nama & Responden di baris atas, rincian sentimen di baris tengah
         row.innerHTML = `
-          <div class="flex items-center justify-between text-xs">
-            <div class="flex items-center space-x-2 font-bold text-slate-900">
-              <svg class="w-3.5 h-3.5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <!-- Baris 1: Nama Kecamatan dan Badge Jumlah Responden -->
+          <div class="flex items-center justify-between gap-2">
+            <div class="flex items-center space-x-1.5 min-w-0">
+              <svg class="w-3.5 h-3.5 text-indigo-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
               </svg>
-              <span>${kec}</span>
-              <span class="text-[11px] font-medium text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200/70">${total} responden</span>
+              <span class="text-xs font-bold text-slate-900 truncate">${kec}</span>
             </div>
-            <div class="flex items-center space-x-3 text-[11px] font-semibold text-slate-600">
-              <span class="text-emerald-700">${pos} Positif</span>
-              <span>•</span>
-              <span class="text-amber-700">${net} Netral</span>
-              <span>•</span>
-              <span class="text-rose-700">${neg} Negatif</span>
-            </div>
+            <span class="text-[10px] font-semibold text-slate-600 bg-white px-2 py-0.5 rounded border border-slate-200/80 shadow-2xs whitespace-nowrap flex-shrink-0">
+              ${total} responden
+            </span>
           </div>
-          <div class="w-full h-2 rounded-full bg-slate-200 flex overflow-hidden">
+
+          <!-- Baris 2: Breakdown Sentimen 3 Nilai yang Tidak Saling Menimpa -->
+          <div class="flex items-center justify-between text-[10px] sm:text-[11px] font-semibold text-slate-600 px-0.5">
+            <span class="text-emerald-700 flex items-center space-x-1">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block"></span>
+              <span>${pos} Positif</span>
+            </span>
+            <span class="text-slate-300">•</span>
+            <span class="text-amber-700 flex items-center space-x-1">
+              <span class="w-1.5 h-1.5 rounded-full bg-amber-400 inline-block"></span>
+              <span>${net} Netral</span>
+            </span>
+            <span class="text-slate-300">•</span>
+            <span class="text-rose-700 flex items-center space-x-1">
+              <span class="w-1.5 h-1.5 rounded-full bg-rose-500 inline-block"></span>
+              <span>${neg} Negatif</span>
+            </span>
+          </div>
+
+          <!-- Baris 3: Indikator Bar Proporsional -->
+          <div class="w-full h-1.5 sm:h-2 rounded-full bg-slate-200 flex overflow-hidden">
             <div class="bg-emerald-500 h-full transition-all duration-300" style="width: ${persenPos}%" title="Positif: ${persenPos}%"></div>
             <div class="bg-amber-400 h-full transition-all duration-300" style="width: ${persenNet}%" title="Netral: ${persenNet}%"></div>
             <div class="bg-rose-500 h-full transition-all duration-300" style="width: ${persenNeg}%" title="Negatif: ${persenNeg}%"></div>
@@ -1032,12 +1072,12 @@
 
       if (terfilter.length === 0) {
         feedList.innerHTML = `
-          <div class="p-12 text-center text-xs text-slate-500 space-y-2">
+          <div class="p-8 sm:p-12 text-center text-xs text-slate-500 space-y-2">
             <svg class="w-8 h-8 mx-auto text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
             <p class="font-semibold text-slate-700">Tidak ada aspirasi yang cocok</p>
-            <p>Silakan sesuaikan kata kunci pencarian, hashtag, atau filter wilayah Anda.</p>
+            <p>Silakan sesuaikan kata kunci pencarian, filter kecamatan, atau sentimen.</p>
           </div>
         `;
         return;
@@ -1058,93 +1098,92 @@
         const hashtagHtml = (item.hashtags || []).map(tag => {
           const t = tag.startsWith('#') ? tag : `#${tag}`;
           return `
-            <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold bg-indigo-50/90 text-indigo-700 border border-indigo-200/70 hover:bg-indigo-100 transition-colors">
+            <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[9px] sm:text-[10px] font-bold bg-indigo-50/90 text-indigo-700 border border-indigo-200/70">
               ${t}
             </span>
           `;
         }).join('');
 
         const card = document.createElement("div");
-        card.className = "p-5 hover:bg-slate-50/80 transition-colors";
+        card.className = "p-3.5 sm:p-5 hover:bg-slate-50/80 transition-colors";
         card.innerHTML = `
-          <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+          <div class="flex flex-col gap-3">
             
-            <div class="space-y-2 flex-1">
-              
-              <div class="flex flex-wrap items-center gap-2 text-xs">
-                <span class="font-bold text-slate-900">${item.author}</span>
-                <span class="text-slate-400 font-medium">${item.handle}</span>
-                <span class="text-slate-300">•</span>
-                <span class="px-2 py-0.5 rounded bg-slate-100 text-slate-600 font-semibold border border-slate-200 text-[10px]">
-                  ${item.channel}
-                </span>
-                <span class="text-slate-300">•</span>
-                <span class="flex items-center text-slate-600 font-medium text-[11px]">
-                  <svg class="w-3.5 h-3.5 mr-1 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
-                  ${item.kecamatan}
-                </span>
+            <!-- Header Kartu: Pengguna, Wilayah, dan Lencana Sentimen -->
+            <div class="flex items-start justify-between gap-2">
+              <div class="min-w-0 flex-1">
+                <div class="flex flex-wrap items-center gap-1.5 text-xs">
+                  <span class="font-bold text-slate-900 truncate">${item.author}</span>
+                  <span class="text-slate-400 font-medium text-[11px] truncate">${item.handle}</span>
+                  <span class="text-slate-300 hidden sm:inline">•</span>
+                  <span class="px-1.5 py-0.5 rounded bg-slate-100 text-slate-600 font-semibold border border-slate-200 text-[9px] sm:text-[10px] truncate">
+                    ${item.channel}
+                  </span>
+                  <span class="text-slate-300">•</span>
+                  <span class="flex items-center text-slate-600 font-medium text-[11px] whitespace-nowrap">
+                    <svg class="w-3 h-3 mr-1 text-slate-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                    ${item.kecamatan}
+                  </span>
+                </div>
               </div>
 
-              <p class="text-xs text-slate-800 leading-relaxed font-normal bg-slate-50/50 p-3 rounded-lg border border-slate-100">
-                "${item.text}"
-              </p>
-
-              <div class="flex flex-wrap items-center justify-between gap-2.5 pt-1.5 border-t border-slate-100/90 mt-2">
-                
-                <div class="flex flex-wrap items-center gap-2.5 text-[11px] text-slate-400">
-                  <span class="flex items-center space-x-1">
-                    <span class="text-slate-500 font-medium">Isu:</span>
-                    <strong class="text-slate-700 font-semibold">${item.topic}</strong>
-                  </span>
-                  <span>•</span>
-                  <span class="text-slate-500 font-medium">
-                    Terdata: <span class="text-slate-700 font-semibold">${item.date}</span>
-                  </span>
-                  <span>•</span>
-                  <div class="inline-flex flex-wrap items-center gap-1.5">
-                    ${hashtagHtml}
-                  </div>
-                </div>
-
-                <div class="flex items-center space-x-1.5">
-                  <button
-                    type="button"
-                    onclick="openSourceModal('${item.id}')"
-                    title="Buka rincian verifikasi sumber"
-                    class="inline-flex items-center space-x-1 px-2.5 py-1 rounded-lg text-[11px] font-semibold text-slate-700 hover:text-indigo-700 bg-white hover:bg-indigo-50/80 border border-slate-200 hover:border-indigo-300 transition-all shadow-sm focus:outline-none"
-                  >
-                    <span>Verifikasi Sumber</span>
-                    <svg class="w-3 h-3 text-slate-400 group-hover:text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                  </button>
-
-                  <button
-                    type="button"
-                    onclick="copySourceDirect('${encodeURIComponent(item.url)}')"
-                    title="Salin tautan sumber asli"
-                    class="p-1 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-lg border border-transparent hover:border-slate-200 transition-colors"
-                  >
-                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                    </svg>
-                  </button>
-                </div>
-
+              <!-- Lencana Sentimen & Skor -->
+              <div class="flex items-center space-x-1.5 flex-shrink-0">
+                <span class="inline-flex items-center space-x-1 px-2 py-0.5 rounded-md text-[10px] sm:text-xs font-semibold border ${badgeClass}">
+                  <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">${iconSvg}</svg>
+                  <span>${item.sentiment}</span>
+                </span>
+                <span class="text-[10px] font-semibold text-slate-500 bg-slate-100 px-1.5 py-0.5 rounded hidden xs:inline">
+                  ${item.score > 0 ? "+" + item.score : item.score}
+                </span>
               </div>
             </div>
 
-            <div class="flex sm:flex-col items-center sm:items-end justify-between sm:justify-start gap-2 self-start">
-              <span class="inline-flex items-center space-x-1.5 px-3 py-1 rounded-md text-xs font-semibold border ${badgeClass}">
-                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">${iconSvg}</svg>
-                <span>${item.sentiment}</span>
-              </span>
-              <span class="text-[11px] font-semibold text-slate-500 bg-slate-100 px-2 py-0.5 rounded">
-                Skor: ${item.score > 0 ? "+" + item.score : item.score}
-              </span>
+            <!-- Isi Pesan Aspirasi -->
+            <p class="text-xs text-slate-800 leading-relaxed font-normal bg-slate-50/60 p-2.5 sm:p-3 rounded-lg border border-slate-100">
+              "${item.text}"
+            </p>
+
+            <!-- Bagian Bawah: Topik, Tanggal, Tagar, dan Tombol Verifikasi -->
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pt-1 border-t border-slate-100">
+              
+              <div class="flex flex-wrap items-center gap-1.5 sm:gap-2 text-[10px] sm:text-[11px] text-slate-400">
+                <span class="text-slate-500 font-medium">Isu: <strong class="text-slate-700 font-semibold">${item.topic}</strong></span>
+                <span>•</span>
+                <span class="text-slate-500 font-medium">Terdata: <span class="text-slate-700 font-semibold">${item.date}</span></span>
+                <span>•</span>
+                <div class="inline-flex flex-wrap items-center gap-1">
+                  ${hashtagHtml}
+                </div>
+              </div>
+
+              <div class="flex items-center space-x-1.5 self-end sm:self-auto">
+                <button
+                  type="button"
+                  onclick="openSourceModal('${item.id}')"
+                  class="inline-flex items-center space-x-1 px-2.5 py-1 rounded-lg text-[11px] font-semibold text-slate-700 hover:text-indigo-700 bg-white hover:bg-indigo-50/80 border border-slate-200 transition-all shadow-2xs"
+                >
+                  <span>Verifikasi</span>
+                  <svg class="w-3 h-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </button>
+
+                <button
+                  type="button"
+                  onclick="copySourceDirect('${encodeURIComponent(item.url)}')"
+                  title="Salin tautan"
+                  class="p-1 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-lg border border-transparent hover:border-slate-200 transition-colors"
+                >
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                  </svg>
+                </button>
+              </div>
+
             </div>
 
           </div>
@@ -1183,8 +1222,10 @@
     }
 
     btnExportData.addEventListener("click", exportToCSV);
+    if (btnMobileExport) {
+      btnMobileExport.addEventListener("click", exportToCSV);
+    }
 
-    // Modal Verifikasi Sumber
     const modalSourceDetail = document.getElementById("modalSourceDetail");
     const btnCloseModal = document.getElementById("btnCloseModal");
     const btnCloseModalBottom = document.getElementById("btnCloseModalBottom");
@@ -1215,7 +1256,7 @@
       modalTopic.textContent = item.topic;
       inputModalUrl.value = item.url;
 
-      modalSentimentBadge.className = "px-2.5 py-0.5 rounded text-[10px] font-semibold border ";
+      modalSentimentBadge.className = "px-2 py-0.5 rounded text-[10px] font-semibold border ";
       if (item.sentiment === "Positif") {
         modalSentimentBadge.className += "bg-emerald-50 text-emerald-800 border-emerald-200";
         modalSentimentBadge.textContent = "Sentimen Positif";
@@ -1229,7 +1270,7 @@
 
       modalHashtags.innerHTML = (item.hashtags || []).map(tag => {
         const t = tag.startsWith('#') ? tag : `#${tag}`;
-        return `<span class="inline-flex px-1.5 py-0.5 rounded text-[10px] font-bold bg-indigo-50 text-indigo-700 border border-indigo-200">${t}</span>`;
+        return `<span class="inline-flex px-1.5 py-0.5 rounded text-[9px] font-bold bg-indigo-50 text-indigo-700 border border-indigo-200">${t}</span>`;
       }).join('');
 
       modalSourceDetail.classList.remove("hidden");
@@ -1251,9 +1292,9 @@
       tempInput.select();
       try {
         document.execCommand("copy");
-        showNotification("success", "Tautan Berhasil Disalin", "URL sumber data siap dibuka di browser.");
+        showNotification("success", "Tautan Disalin", "URL sumber data siap dibuka di peramban.");
       } catch (err) {
-        showNotification("error", "Gagal Menyalin", "Salin tautan secara manual dari kotak input.");
+        showNotification("error", "Gagal Menyalin", "Salin tautan secara manual.");
       }
       document.body.removeChild(tempInput);
     }
@@ -1281,7 +1322,6 @@
       }
     });
 
-    // Filter listeners
     searchFilter.addEventListener("input", renderFeed);
     selectKecamatanFilter.addEventListener("change", renderFeed);
     selectSentimenFilter.addEventListener("change", renderFeed);
